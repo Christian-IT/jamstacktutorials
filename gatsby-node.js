@@ -3,34 +3,34 @@
  *
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
-const path = require('path');
+const path = require(`path`)
 
 exports.createPages = ({ graphql, actions }) => {
     const { createPage } = actions
     const lessonTemplate = path.resolve(`src/templates/lesson.js`)
     const instructorTemplate = path.resolve(`src/templates/instructor.js`)
     return graphql(`
-        {
-            allContentfulLesson {
-                edges {
-                  node {
-                    title
-                    slug
-                  }
-                }
-            }
-            allContentfulInstructor {
-                edges {
-                  node {
-                    slug
-                  }
-                }
-            }
+    {
+      allContentfulLesson {
+        edges {
+          node {
+            slug
+          }
         }
-    `).then(result => {
+      }
+      allContentfulInstructor {
+        edges {
+          node {
+            slug
+          }
+        }
+      }
+    }
+  `).then(result => {
         if (result.errors) {
             throw result.errors
         }
+
         result.data.allContentfulLesson.edges.forEach(edge => {
             createPage({
                 path: `/lessons/${edge.node.slug}`,
